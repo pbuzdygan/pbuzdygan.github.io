@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pbuzdygan — Projects (Layout F)</title>
+  <title>pbuzdygan — Projects (Layout D)</title>
 
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -31,99 +31,36 @@
 
     @keyframes fadeIn { from {opacity: 0; transform: translateY(16px);} to {opacity: 1; transform: translateY(0);} }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px 44px; }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 8px 20px var(--shadow);
-      -webkit-backdrop-filter: blur(6px);
-      backdrop-filter: blur(6px);
-      animation: fadeIn 0.7s ease both;
-    }
-
-    .profile {
-      display: grid;
-      grid-template-columns: 120px 1fr;
+    .hero {
+      display: flex;
       gap: 16px;
       align-items: center;
-    }
-
-    @media (max-width: 560px) {
-      .profile { grid-template-columns: 1fr; text-align: center; }
-      .profile .meta { align-items: center; }
+      flex-wrap: wrap;
+      margin-bottom: 18px;
     }
 
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
       border: 3px solid var(--accent);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
-      justify-self: start;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.45);
     }
 
-    @media (max-width: 560px) {
-      .avatar { justify-self: center; }
-    }
+    .title { display: flex; flex-direction: column; gap: 6px; min-width: min(70ch, 100%); }
+    .title h1 { margin: 0; color: var(--accent); font-size: 1.6rem; }
+    .title p { margin: 0; color: var(--muted); line-height: 1.5; }
 
-    .meta { display: flex; flex-direction: column; gap: 10px; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { background: rgba(15,23,42,0.55); border: 1px solid rgba(255,255,255,0.08); padding: 8px 10px; border-radius: 999px; color: #cbd5e1; font-size: 0.92rem; }
 
-    .name-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+    .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 12px 4px 14px; }
+    .head h2 { margin: 0; font-size: 1.35rem; }
+    .head p { margin: 0; color: var(--muted); }
 
-    .name { margin: 0; font-size: 2rem; color: var(--accent); }
-    .bio { margin: 0; color: var(--muted); line-height: 1.5; max-width: 70ch; }
-
-    /* Contact buttons from Layout C */
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-    .action {
-      text-decoration: none;
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(30,41,59,0.55);
-      color: #cbd5e1;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      font-size: 0.95rem;
-      white-space: nowrap;
-    }
-    .action:hover { transform: translateY(-2px); border-color: rgba(56,189,248,0.25); background: rgba(56,189,248,0.08); }
-    .action i { color: var(--accent); }
-
-    @media (max-width: 900px) {
-      .actions { justify-content: flex-start; }
-    }
-
-    .stats { display: flex; justify-content: flex-start; gap: 20px; flex-wrap: wrap; margin-top: 10px; color: #cbd5e1; font-size: 0.95rem; }
-    .stats div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
-    
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: baseline;
-      margin: 22px 4px 12px;
-    }
-    .section-head h2 { margin: 0; font-size: 1.35rem; }
-    .section-head p { margin: 0; color: var(--muted); }
-
-    main {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-      padding: 0;
-    }
+    main { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
 
     .repo {
       background: var(--card-bg);
@@ -160,70 +97,89 @@
     .repo-footer { margin-top: auto; padding-top: 14px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
     .repo-footer img { height: 20px; }
 
-    #scrollTopBtn {
+    .fab-bar {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .fab {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(30,41,59,0.75);
+      color: #cbd5e1;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      max-width: 210px;
+    }
+    .fab:hover { transform: translateY(-2px); border-color: rgba(56,189,248,0.25); background: rgba(56,189,248,0.10); }
+    .fab i { color: var(--accent); width: 18px; text-align: center; }
+
+    #scrollTopBtn {
       background: var(--accent);
       color: #0f172a;
       border: none;
-      border-radius: 999px;
-      padding: 12px 14px;
-      font-size: 1rem;
       cursor: pointer;
+      justify-content: center;
       box-shadow: 0 0 12px rgba(56,189,248,0.4);
-      display: none;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.2s, transform 0.2s;
-      z-index: 1000;
     }
-    #scrollTopBtn.visible { display: inline-flex; align-items: center; gap: 8px; opacity: 1; transform: translateY(0); }
+
+    #scrollTopBtn span { font-weight: 600; }
 
     footer { text-align: center; padding: 24px 0 6px; color: #64748b; font-size: 0.9rem; }
+
+    @media (max-width: 560px) {
+      .fab span { display: none; }
+      #scrollTopBtn span { display: inline; }
+      .fab { border-radius: 50%; width: 48px; height: 48px; padding: 0; justify-content: center; }
+      .fab i { width: auto; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="card" aria-label="Header">
-      <div class="profile">
-        <img class="avatar" src="https://github.com/pbuzdygan.png" alt="pbuzdygan avatar" />
-
-        <div class="meta">
-          <div class="name-row">
-            <h1 class="name">pbuzdygan</h1>
-            <nav class="actions" aria-label="Contact">
-              <a class="action" href="mailto:pbuzdygan@outlook.com"><i class="fas fa-envelope"></i><span>Email</span></a>
-              <a class="action" href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
-              <a class="action" href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer"><i class="fab fa-github"></i><span>GitHub</span></a>
-              <a class="action" href="https://pbuzdygan.github.io/cv.pdf" target="_blank" rel="noreferrer"><i class="fas fa-file-pdf"></i><span>CV</span></a>
-            </nav>
-          </div>
-
-          <p class="bio" id="bio">Loading bio…</p>
-
-          <div class="stats" id="stats" aria-label="Stats">
-            <div>👥 Followers: —</div>
-            <div>📦 Repositories: —</div>
-            <div>🌟 Following: —</div>
-          </div>
+  <div class="wrap">
+    <header class="hero" aria-label="Header">
+      <img class="avatar" src="https://github.com/pbuzdygan.png" alt="pbuzdygan avatar" />
+      <div class="title">
+        <h1>pbuzdygan</h1>
+        <p id="bio">Loading bio…</p>
+        <div class="chips" id="stats" aria-label="Stats">
+          <div class="chip">Followers: —</div>
+          <div class="chip">Repos: —</div>
+          <div class="chip">Following: —</div>
         </div>
       </div>
     </header>
 
-    <div class="section-head">
+    <div class="head">
       <h2>Projects</h2>
-      <p>Automatically fetched from GitHub.</p>
+      <p>Contact is always available via floating actions.</p>
     </div>
 
     <main id="repos">Loading projects…</main>
 
     <footer>
-      <p>© 2025 pbuzdygan • Built with ❤️ and the GitHub API</p>
+      <p>© 2025 pbuzdygan</p>
     </footer>
   </div>
 
-  <button id="scrollTopBtn" title="Back to top"><i class="fas fa-arrow-up"></i><span>Top</span></button>
+  <div class="fab-bar" aria-label="Quick contact">
+    <a class="fab" href="mailto:pbuzdygan@outlook.com" title="Email"><i class="fas fa-envelope"></i><span>Email</span></a>
+    <a class="fab" href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer" title="LinkedIn"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
+    <a class="fab" href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer" title="GitHub"><i class="fab fa-github"></i><span>GitHub</span></a>
+    <button class="fab" id="scrollTopBtn" title="Back to top"><i class="fas fa-arrow-up"></i><span>Top</span></button>
+  </div>
 
   <script>
     const username = "pbuzdygan";
@@ -234,22 +190,13 @@
 
     const excluded = new Set(["pbuzdygan", "pbuzdygan.github.io"]);
 
-    const updateScrollTopVisibility = () => {
-      if (window.scrollY > 200) {
-        scrollTopBtn.classList.add("visible");
-      } else {
-        scrollTopBtn.classList.remove("visible");
-      }
-    };
-    window.addEventListener("scroll", updateScrollTopVisibility);
-    updateScrollTopVisibility();
     scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
     fetch(`https://api.github.com/users/${username}`)
       .then(res => res.json())
       .then(user => {
         profileBio.textContent = user.bio || "No bio available.";
-        stats.innerHTML = `<div>👥 Followers: ${user.followers}</div><div>📦 Repositories: ${user.public_repos}</div><div>🌟 Following: ${user.following}</div>`;
+        stats.innerHTML = `<div class="chip">Followers: ${user.followers}</div><div class="chip">Repos: ${user.public_repos}</div><div class="chip">Following: ${user.following}</div>`;
       })
       .catch(() => { profileBio.textContent = "Could not load bio."; });
 

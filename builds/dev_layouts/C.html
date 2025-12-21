@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pbuzdygan — Projects (Layout F)</title>
+  <title>pbuzdygan — Projects (Layout C)</title>
 
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -31,57 +31,35 @@
 
     @keyframes fadeIn { from {opacity: 0; transform: translateY(16px);} to {opacity: 1; transform: translateY(0);} }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 8px 20px var(--shadow);
-      -webkit-backdrop-filter: blur(6px);
-      backdrop-filter: blur(6px);
-      animation: fadeIn 0.7s ease both;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(15,23,42,0.78);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
 
-    .profile {
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 20px;
       display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 16px;
+      grid-template-columns: 1fr auto;
       align-items: center;
+      gap: 14px;
     }
 
-    @media (max-width: 560px) {
-      .profile { grid-template-columns: 1fr; text-align: center; }
-      .profile .meta { align-items: center; }
-    }
+    .left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 0 12px rgba(56,189,248,0.35); }
+    .title { display: flex; flex-direction: column; min-width: 0; }
+    .title h1 { margin: 0; font-size: 1.1rem; color: var(--accent); }
+    .title p { margin: 2px 0 0; color: var(--muted); font-size: 0.92rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60ch; }
 
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 3px solid var(--accent);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
-      justify-self: start;
-    }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { background: rgba(15,23,42,0.55); border: 1px solid rgba(255,255,255,0.08); padding: 7px 10px; border-radius: 999px; color: #cbd5e1; font-size: 0.9rem; }
 
-    @media (max-width: 560px) {
-      .avatar { justify-self: center; }
-    }
-
-    .meta { display: flex; flex-direction: column; gap: 10px; }
-
-    .name-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .name { margin: 0; font-size: 2rem; color: var(--accent); }
-    .bio { margin: 0; color: var(--muted); line-height: 1.5; max-width: 70ch; }
-
-    /* Contact buttons from Layout C */
     .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
     .action {
       text-decoration: none;
@@ -95,35 +73,17 @@
       color: #cbd5e1;
       transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
       font-size: 0.95rem;
-      white-space: nowrap;
     }
     .action:hover { transform: translateY(-2px); border-color: rgba(56,189,248,0.25); background: rgba(56,189,248,0.08); }
     .action i { color: var(--accent); }
 
-    @media (max-width: 900px) {
-      .actions { justify-content: flex-start; }
-    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 18px 20px 44px; }
 
-    .stats { display: flex; justify-content: flex-start; gap: 20px; flex-wrap: wrap; margin-top: 10px; color: #cbd5e1; font-size: 0.95rem; }
-    .stats div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
-    
+    .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 8px 4px 14px; }
+    .head h2 { margin: 0; font-size: 1.35rem; }
+    .head p { margin: 0; color: var(--muted); }
 
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: baseline;
-      margin: 22px 4px 12px;
-    }
-    .section-head h2 { margin: 0; font-size: 1.35rem; }
-    .section-head p { margin: 0; color: var(--muted); }
-
-    main {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-      padding: 0;
-    }
+    main { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
 
     .repo {
       background: var(--card-bg);
@@ -181,45 +141,51 @@
     #scrollTopBtn.visible { display: inline-flex; align-items: center; gap: 8px; opacity: 1; transform: translateY(0); }
 
     footer { text-align: center; padding: 24px 0 6px; color: #64748b; font-size: 0.9rem; }
+
+    @media (max-width: 720px) {
+      .topbar-inner { grid-template-columns: 1fr; }
+      .actions { justify-content: flex-start; }
+      .chips { margin-left: 56px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="card" aria-label="Header">
-      <div class="profile">
-        <img class="avatar" src="https://github.com/pbuzdygan.png" alt="pbuzdygan avatar" />
-
-        <div class="meta">
-          <div class="name-row">
-            <h1 class="name">pbuzdygan</h1>
-            <nav class="actions" aria-label="Contact">
-              <a class="action" href="mailto:pbuzdygan@outlook.com"><i class="fas fa-envelope"></i><span>Email</span></a>
-              <a class="action" href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
-              <a class="action" href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer"><i class="fab fa-github"></i><span>GitHub</span></a>
-              <a class="action" href="https://pbuzdygan.github.io/cv.pdf" target="_blank" rel="noreferrer"><i class="fas fa-file-pdf"></i><span>CV</span></a>
-            </nav>
-          </div>
-
-          <p class="bio" id="bio">Loading bio…</p>
-
-          <div class="stats" id="stats" aria-label="Stats">
-            <div>👥 Followers: —</div>
-            <div>📦 Repositories: —</div>
-            <div>🌟 Following: —</div>
+  <header class="topbar" aria-label="Top bar">
+    <div class="topbar-inner">
+      <div>
+        <div class="left">
+          <img class="avatar" src="https://github.com/pbuzdygan.png" alt="pbuzdygan avatar" />
+          <div class="title">
+            <h1>pbuzdygan</h1>
+            <p id="bio">Loading bio…</p>
           </div>
         </div>
+        <div class="chips" id="stats" aria-label="Stats">
+          <div class="chip">Followers: —</div>
+          <div class="chip">Repos: —</div>
+          <div class="chip">Following: —</div>
+        </div>
       </div>
-    </header>
 
-    <div class="section-head">
+      <nav class="actions" aria-label="Contact">
+        <a class="action" href="mailto:pbuzdygan@outlook.com"><i class="fas fa-envelope"></i><span>Email</span></a>
+        <a class="action" href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
+        <a class="action" href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer"><i class="fab fa-github"></i><span>GitHub</span></a>
+        <a class="action" href="https://pbuzdygan.github.io/cv.pdf" target="_blank" rel="noreferrer"><i class="fas fa-file-pdf"></i><span>CV</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="head">
       <h2>Projects</h2>
-      <p>Automatically fetched from GitHub.</p>
+      <p>Compact header, maximum space for cards.</p>
     </div>
 
     <main id="repos">Loading projects…</main>
 
     <footer>
-      <p>© 2025 pbuzdygan • Built with ❤️ and the GitHub API</p>
+      <p>© 2025 pbuzdygan</p>
     </footer>
   </div>
 
@@ -249,7 +215,7 @@
       .then(res => res.json())
       .then(user => {
         profileBio.textContent = user.bio || "No bio available.";
-        stats.innerHTML = `<div>👥 Followers: ${user.followers}</div><div>📦 Repositories: ${user.public_repos}</div><div>🌟 Following: ${user.following}</div>`;
+        stats.innerHTML = `<div class="chip">Followers: ${user.followers}</div><div class="chip">Repos: ${user.public_repos}</div><div class="chip">Following: ${user.following}</div>`;
       })
       .catch(() => { profileBio.textContent = "Could not load bio."; });
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pbuzdygan — Projects (Layout F)</title>
+  <title>pbuzdygan — Projects (Layout E)</title>
 
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -31,99 +31,58 @@
 
     @keyframes fadeIn { from {opacity: 0; transform: translateY(16px);} to {opacity: 1; transform: translateY(0);} }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 26px 20px 44px; }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 8px 20px var(--shadow);
-      -webkit-backdrop-filter: blur(6px);
-      backdrop-filter: blur(6px);
-      animation: fadeIn 0.7s ease both;
-    }
+    .header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+    .header h1 { margin: 0; font-size: 1.6rem; color: var(--accent); }
+    .header p { margin: 8px 0 0; color: var(--muted); }
 
-    .profile {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 16px;
-      align-items: center;
-    }
-
-    @media (max-width: 560px) {
-      .profile { grid-template-columns: 1fr; text-align: center; }
-      .profile .meta { align-items: center; }
-    }
-
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 3px solid var(--accent);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
-      justify-self: start;
-    }
-
-    @media (max-width: 560px) {
-      .avatar { justify-self: center; }
-    }
-
-    .meta { display: flex; flex-direction: column; gap: 10px; }
-
-    .name-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .name { margin: 0; font-size: 2rem; color: var(--accent); }
-    .bio { margin: 0; color: var(--muted); line-height: 1.5; max-width: 70ch; }
-
-    /* Contact buttons from Layout C */
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-    .action {
-      text-decoration: none;
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 9px 12px;
-      border-radius: 999px;
+    .profile-card {
+      background: rgba(15,23,42,0.40);
       border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(30,41,59,0.55);
-      color: #cbd5e1;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      font-size: 0.95rem;
-      white-space: nowrap;
-    }
-    .action:hover { transform: translateY(-2px); border-color: rgba(56,189,248,0.25); background: rgba(56,189,248,0.08); }
-    .action i { color: var(--accent); }
-
-    @media (max-width: 900px) {
-      .actions { justify-content: flex-start; }
-    }
-
-    .stats { display: flex; justify-content: flex-start; gap: 20px; flex-wrap: wrap; margin-top: 10px; color: #cbd5e1; font-size: 0.95rem; }
-    .stats div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
-    
-
-    .section-head {
+      border-radius: 16px;
+      padding: 14px;
       display: flex;
-      justify-content: space-between;
       gap: 12px;
-      align-items: baseline;
-      margin: 22px 4px 12px;
+      align-items: center;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+      max-width: 520px;
     }
-    .section-head h2 { margin: 0; font-size: 1.35rem; }
-    .section-head p { margin: 0; color: var(--muted); }
 
-    main {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-      padding: 0;
+    .avatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 0 12px rgba(56,189,248,0.35); }
+    .profile-meta { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .profile-meta strong { color: #e2e8f0; }
+    .profile-meta small { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 52ch; }
+
+    .mini-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+    .mini-links a { text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); background: rgba(30,41,59,0.55); color: #cbd5e1; }
+    .mini-links a i { color: var(--accent); }
+
+    .tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 18px; }
+
+    .search {
+      flex: 1;
+      min-width: 260px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15,23,42,0.35);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 999px;
+      padding: 10px 14px;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
     }
+    .search i { color: var(--accent); }
+    .search input { width: 100%; background: transparent; border: none; outline: none; color: var(--text-color); font-size: 1rem; }
+    .search input::placeholder { color: rgba(148,163,184,0.85); }
+
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { background: rgba(15,23,42,0.55); border: 1px solid rgba(255,255,255,0.08); padding: 8px 10px; border-radius: 999px; color: #cbd5e1; font-size: 0.92rem; }
+
+    main { margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
 
     .repo {
       background: var(--card-bg);
@@ -181,45 +140,50 @@
     #scrollTopBtn.visible { display: inline-flex; align-items: center; gap: 8px; opacity: 1; transform: translateY(0); }
 
     footer { text-align: center; padding: 24px 0 6px; color: #64748b; font-size: 0.9rem; }
+
+    @media (max-width: 820px) {
+      .profile-card { width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header class="card" aria-label="Header">
-      <div class="profile">
+  <div class="wrap">
+    <div class="header" aria-label="Header">
+      <div>
+        <h1>Projects</h1>
+        <p>Browse my GitHub repos and reach out anytime.</p>
+      </div>
+
+      <div class="profile-card" aria-label="Profile">
         <img class="avatar" src="https://github.com/pbuzdygan.png" alt="pbuzdygan avatar" />
-
-        <div class="meta">
-          <div class="name-row">
-            <h1 class="name">pbuzdygan</h1>
-            <nav class="actions" aria-label="Contact">
-              <a class="action" href="mailto:pbuzdygan@outlook.com"><i class="fas fa-envelope"></i><span>Email</span></a>
-              <a class="action" href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
-              <a class="action" href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer"><i class="fab fa-github"></i><span>GitHub</span></a>
-              <a class="action" href="https://pbuzdygan.github.io/cv.pdf" target="_blank" rel="noreferrer"><i class="fas fa-file-pdf"></i><span>CV</span></a>
-            </nav>
-          </div>
-
-          <p class="bio" id="bio">Loading bio…</p>
-
-          <div class="stats" id="stats" aria-label="Stats">
-            <div>👥 Followers: —</div>
-            <div>📦 Repositories: —</div>
-            <div>🌟 Following: —</div>
+        <div class="profile-meta">
+          <strong>pbuzdygan</strong>
+          <small id="bio">Loading bio…</small>
+          <div class="mini-links" aria-label="Contact">
+            <a href="mailto:pbuzdygan@outlook.com"><i class="fas fa-envelope"></i><span>Email</span></a>
+            <a href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
+            <a href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer"><i class="fab fa-github"></i><span>GitHub</span></a>
           </div>
         </div>
       </div>
-    </header>
+    </div>
 
-    <div class="section-head">
-      <h2>Projects</h2>
-      <p>Automatically fetched from GitHub.</p>
+    <div class="tools" aria-label="Tools">
+      <div class="search" role="search">
+        <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+        <input id="search" type="search" placeholder="Search projects…" autocomplete="off" />
+      </div>
+      <div class="chips" id="stats" aria-label="Stats">
+        <div class="chip">Followers: —</div>
+        <div class="chip">Repos: —</div>
+        <div class="chip">Following: —</div>
+      </div>
     </div>
 
     <main id="repos">Loading projects…</main>
 
     <footer>
-      <p>© 2025 pbuzdygan • Built with ❤️ and the GitHub API</p>
+      <p>© 2025 pbuzdygan</p>
     </footer>
   </div>
 
@@ -231,6 +195,7 @@
     const stats = document.getElementById("stats");
     const container = document.getElementById("repos");
     const scrollTopBtn = document.getElementById("scrollTopBtn");
+    const searchInput = document.getElementById("search");
 
     const excluded = new Set(["pbuzdygan", "pbuzdygan.github.io"]);
 
@@ -249,9 +214,19 @@
       .then(res => res.json())
       .then(user => {
         profileBio.textContent = user.bio || "No bio available.";
-        stats.innerHTML = `<div>👥 Followers: ${user.followers}</div><div>📦 Repositories: ${user.public_repos}</div><div>🌟 Following: ${user.following}</div>`;
+        stats.innerHTML = `<div class="chip">Followers: ${user.followers}</div><div class="chip">Repos: ${user.public_repos}</div><div class="chip">Following: ${user.following}</div>`;
       })
       .catch(() => { profileBio.textContent = "Could not load bio."; });
+
+    const filterCards = () => {
+      const q = (searchInput.value || "").trim().toLowerCase();
+      const cards = container.querySelectorAll(".repo");
+      cards.forEach(card => {
+        const text = (card.getAttribute("data-search") || "").toLowerCase();
+        card.style.display = text.includes(q) ? "flex" : "none";
+      });
+    };
+    searchInput.addEventListener("input", filterCards);
 
     fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
       .then(res => res.json())
@@ -268,6 +243,7 @@
             const card = document.createElement("article");
             card.className = "repo";
             card.style.animationDelay = `${0.08 * (i + 1)}s`;
+            card.setAttribute("data-search", `${repo.name} ${repo.description || ""}`);
 
             const bannerUrl = `https://raw.githubusercontent.com/${username}/${repoSlug}/${branch}/branding/${repoSlug}_banner.png`;
             const banner = document.createElement("img");
@@ -286,6 +262,8 @@
             card.prepend(banner);
             container.appendChild(card);
           });
+
+        filterCards();
       })
       .catch(() => {
         container.textContent = "Could not load projects. Try again later.";
