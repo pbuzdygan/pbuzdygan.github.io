@@ -39,6 +39,7 @@
     .stats div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
     main { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px; max-width: 1200px; margin: auto; width: 100%; }
     .repo { background: var(--card-bg); border-radius: 16px; padding: 24px; box-shadow: 0 8px 20px var(--shadow); backdrop-filter: blur(6px); transition: transform 0.4s, box-shadow 0.3s; opacity: 0; animation: fadeIn 0.8s ease forwards; }
+    .repo-banner { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; margin-bottom: 14px; display: block; box-shadow: 0 6px 16px rgba(0,0,0,0.35); }
     .repo:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 12px 25px rgba(0,0,0,0.6); }
     .repo h2 { font-size: 1.3rem; margin: 0 0 10px; }
     .repo a { color: var(--accent); text-decoration: none; transition: color 0.3s; }
@@ -86,8 +87,8 @@
     <h2>📬 Skontaktuj się ze mną</h2>
     <p>Znajdziesz mnie tutaj — chętnie porozmawiam o współpracy lub projektach open-source!</p>
     <div class="contact-links">
-      <a href="mailto:pbuzdygan@gmail.com" title="E-mail"><i class="fas fa-envelope"></i></a>
-      <a href="https://www.linkedin.com/in/pbuzdygan" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="mailto:pbuzdygan@outlook.com" title="E-mail"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
       <a href="https://github.com/pbuzdygan" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
       <a href="https://pbuzdygan.github.io" target="_blank" title="Portfolio"><i class="fas fa-globe"></i></a>
       <a href="https://pbuzdygan.github.io/cv.pdf" target="_blank" title="CV PDF"><i class="fas fa-file-pdf"></i></a>
@@ -108,15 +109,29 @@
     const scrollTopBtn = document.getElementById("scrollTopBtn");
 
     const contactSection = document.getElementById("contact");
-    const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) contactSection.classList.add("visible"); }); });
-    observer.observe(contactSection);
-    window.addEventListener("scroll", () => {
+    const revealContact = () => contactSection.classList.add("visible");
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            revealContact();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.2 });
+      observer.observe(contactSection);
+    } else {
+      revealContact();
+    }
+    const updateScrollTopVisibility = () => {
       if (window.scrollY > 400) {
         scrollTopBtn.classList.add("visible");
       } else {
         scrollTopBtn.classList.remove("visible");
       }
-    });
+    };
+    window.addEventListener("scroll", updateScrollTopVisibility);
+    updateScrollTopVisibility();
     scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
     fetch(`https://api.github.com/users/${username}`)
@@ -141,9 +156,20 @@
           .filter(repo => !excluded.has(repo.name))
           .forEach((repo, i) => {
             const card = document.createElement("div");
+            const repoSlug = encodeURIComponent(repo.name);
+            const branch = encodeURIComponent(repo.default_branch || "main");
+            const bannerUrl = `https://raw.githubusercontent.com/${username}/${repoSlug}/${branch}/branding/${repoSlug}_branding.png`;
+            const banner = document.createElement("img");
+            banner.className = "repo-banner";
+            banner.src = bannerUrl;
+            banner.alt = `${repo.name} banner`;
+            banner.loading = "lazy";
+            banner.referrerPolicy = "no-referrer";
+            banner.onerror = () => banner.remove();
             card.className = "repo";
             card.style.animationDelay = `${0.1 * (i + 1)}s`;
             card.innerHTML = `<h2><a href="${repo.html_url}" target="_blank">${repo.name}</a></h2><p>${repo.description || "Brak opisu projektu."}</p><div class="repo-footer"><span>⭐ ${repo.stargazers_count}</span><span>${repo.language || "Nieznany język"}</span></div>`;
+            card.prepend(banner);
             container.appendChild(card);
           });
       })
