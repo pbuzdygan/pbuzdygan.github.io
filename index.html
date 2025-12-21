@@ -22,6 +22,9 @@
     }
     html { scroll-behavior: smooth; }
     @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+    @keyframes floatIn { 0% { opacity: 0; transform: translateY(24px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes glowPulse { 0%, 100% { box-shadow: 0 0 12px rgba(56,189,248,0.3); } 50% { box-shadow: 0 0 22px rgba(56,189,248,0.65); } }
+    @keyframes arrowBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
     body {
       margin: 0; font-family: "Inter", "Segoe UI", Arial, sans-serif;
       background: var(--bg-gradient); color: var(--text-color);
@@ -42,16 +45,24 @@
     .repo a:hover { color: #7dd3fc; }
     .repo p { color: #cbd5e1; line-height: 1.5; min-height: 60px; }
     .repo-footer { margin-top: 15px; font-size: 0.9rem; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; }
-    .contact { text-align: center; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(15,23,42,0.7); opacity: 0; transform: translateY(20px); transition: opacity 1s ease, transform 1s ease; }
+    .contact { text-align: center; padding: 70px 20px; border-top: 1px solid rgba(255,255,255,0.1); background: radial-gradient(900px 300px at 50% 0%, rgba(56,189,248,0.12), rgba(15,23,42,0.7)); opacity: 0; transform: translateY(24px); transition: opacity 1s ease, transform 1s ease; }
     .contact.visible { opacity: 1; transform: translateY(0); }
-    .contact h2 { color: var(--accent); margin-bottom: 15px; }
-    .contact p { color: #94a3b8; margin-bottom: 25px; }
-    .contact-links { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; opacity: 0; transform: scale(0.95); transition: opacity 1s ease, transform 0.6s ease; }
-    .contact.visible .contact-links { opacity: 1; transform: scale(1); }
-    .contact-links a { color: var(--text-color); font-size: 1.8rem; text-decoration: none; transition: transform 0.3s, color 0.3s; }
-    .contact-links a:hover { color: var(--accent); transform: scale(1.2); text-shadow: 0 0 10px rgba(56,189,248,0.6); }
-    #scrollTopBtn { position: fixed; bottom: 30px; right: 30px; background: var(--accent); color: #0f172a; border: none; border-radius: 50%; width: 48px; height: 48px; font-size: 1.5rem; cursor: pointer; box-shadow: 0 0 12px rgba(56,189,248,0.5); display: none; transition: transform 0.3s, box-shadow 0.3s; z-index: 1000; }
-    #scrollTopBtn:hover { transform: scale(1.1); box-shadow: 0 0 18px rgba(56,189,248,0.8); }
+    .contact h2 { color: var(--accent); margin-bottom: 15px; opacity: 0; transform: translateY(10px); }
+    .contact p { color: #94a3b8; margin-bottom: 25px; opacity: 0; transform: translateY(10px); }
+    .contact.visible h2 { animation: floatIn 0.7s ease forwards; }
+    .contact.visible p { animation: floatIn 0.7s ease forwards; animation-delay: 0.1s; }
+    .contact-links { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 5px; }
+    .contact-links a { color: var(--text-color); font-size: 1.8rem; text-decoration: none; opacity: 0; transform: translateY(10px) scale(0.95); transition: transform 0.3s, color 0.3s; }
+    .contact.visible .contact-links a { animation: floatIn 0.6s ease forwards; }
+    .contact.visible .contact-links a:nth-child(1) { animation-delay: 0.15s; }
+    .contact.visible .contact-links a:nth-child(2) { animation-delay: 0.25s; }
+    .contact.visible .contact-links a:nth-child(3) { animation-delay: 0.35s; }
+    .contact.visible .contact-links a:nth-child(4) { animation-delay: 0.45s; }
+    .contact.visible .contact-links a:nth-child(5) { animation-delay: 0.55s; }
+    .contact-links a:hover { color: var(--accent); transform: translateY(-2px) scale(1.12); text-shadow: 0 0 10px rgba(56,189,248,0.6); }
+    #scrollTopBtn { position: fixed; bottom: 30px; right: 30px; background: var(--accent); color: #0f172a; border: none; border-radius: 50%; width: 52px; height: 52px; font-size: 1.5rem; cursor: pointer; box-shadow: 0 0 12px rgba(56,189,248,0.4); display: none; opacity: 0; transform: translateY(10px) scale(0.95); transition: opacity 0.3s, transform 0.3s; z-index: 1000; }
+    #scrollTopBtn.visible { display: block; opacity: 1; transform: translateY(0) scale(1); animation: glowPulse 2.2s ease-in-out infinite, arrowBob 2s ease-in-out infinite; }
+    #scrollTopBtn:hover { transform: translateY(-2px) scale(1.06); box-shadow: 0 0 20px rgba(56,189,248,0.8); }
     footer { text-align: center; padding: 25px; color: #64748b; font-size: 0.9rem; }
   </style>
 </head>
@@ -96,31 +107,49 @@
     const container = document.getElementById("repos");
     const scrollTopBtn = document.getElementById("scrollTopBtn");
 
+    const contactSection = document.getElementById("contact");
+    const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) contactSection.classList.add("visible"); }); });
+    observer.observe(contactSection);
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 400) {
+        scrollTopBtn.classList.add("visible");
+      } else {
+        scrollTopBtn.classList.remove("visible");
+      }
+    });
+    scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
     fetch(`https://api.github.com/users/${username}`)
       .then(res => res.json())
       .then(user => {
         profileBio.textContent = user.bio || "Brak opisu w profilu.";
         stats.innerHTML = `<div>👥 Obserwujący: ${user.followers}</div><div>📦 Repozytoria: ${user.public_repos}</div><div>🌟 Obserwowani: ${user.following}</div>`;
+      })
+      .catch(() => {
+        profileBio.textContent = "Nie udało się pobrać opisu profilu.";
       });
 
     fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
       .then(res => res.json())
       .then(repos => {
+        if (!Array.isArray(repos)) {
+          throw new Error("Repo list is not an array");
+        }
+        const excluded = new Set(["pbuzdygan", "pbuzdygan.github.io"]);
         container.innerHTML = "";
-        repos.forEach((repo, i) => {
-          const card = document.createElement("div");
-          card.className = "repo";
-          card.style.animationDelay = `${0.1 * (i + 1)}s`;
-          card.innerHTML = `<h2><a href="${repo.html_url}" target="_blank">${repo.name}</a></h2><p>${repo.description || "Brak opisu projektu."}</p><div class="repo-footer"><span>⭐ ${repo.stargazers_count}</span><span>${repo.language || "Nieznany język"}</span></div>`;
-          container.appendChild(card);
-        });
+        repos
+          .filter(repo => !excluded.has(repo.name))
+          .forEach((repo, i) => {
+            const card = document.createElement("div");
+            card.className = "repo";
+            card.style.animationDelay = `${0.1 * (i + 1)}s`;
+            card.innerHTML = `<h2><a href="${repo.html_url}" target="_blank">${repo.name}</a></h2><p>${repo.description || "Brak opisu projektu."}</p><div class="repo-footer"><span>⭐ ${repo.stargazers_count}</span><span>${repo.language || "Nieznany język"}</span></div>`;
+            container.appendChild(card);
+          });
+      })
+      .catch(() => {
+        container.textContent = "Nie udało się załadować listy repozytoriów. Spróbuj ponownie później.";
       });
-
-    const contactSection = document.getElementById("contact");
-    const observer = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) contactSection.classList.add("visible"); }); });
-    observer.observe(contactSection);
-    window.addEventListener("scroll", () => scrollTopBtn.style.display = window.scrollY > 400 ? "block" : "none");
-    scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   </script>
 </body>
 </html>
