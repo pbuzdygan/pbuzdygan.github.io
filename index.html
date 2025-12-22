@@ -33,6 +33,8 @@
     @keyframes quoteIn { from {opacity: 0; transform: translateY(8px);} to {opacity: 1; transform: translateY(0);} }
     @keyframes softRise { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
     @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 rgba(56,189,248,0.0); transform: translateY(0); } 50% { box-shadow: 0 0 14px rgba(56,189,248,0.35); transform: translateY(-1px); } }
+    @keyframes shimmer { 0% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+    @keyframes footerIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
 
@@ -130,11 +132,13 @@
     .section-head p.is-hidden { opacity: 0; transform: translateY(6px); }
 
     main {
+      min-height: 45vh;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 22px;
       padding: 0;
     }
+    main[hidden] { display: none; min-height: 0; }
 
     .repo {
       background: var(--card-bg);
@@ -149,6 +153,13 @@
       display: flex;
       flex-direction: column;
     }
+
+    .repo.skeleton { opacity: 1; animation: none; pointer-events: none; position: relative; overflow: hidden; }
+    .repo.skeleton::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.06) 45%, transparent 60%); transform: translateX(-120%); animation: shimmer 1.4s ease-in-out infinite; }
+    .repo.skeleton .skeleton-line { height: 12px; border-radius: 999px; background: rgba(148,163,184,0.18); margin-top: 10px; }
+    .repo.skeleton .skeleton-line.short { width: 55%; }
+    .repo.skeleton .skeleton-line.medium { width: 78%; }
+    .repo.skeleton .skeleton-banner { width: 100%; height: 120px; border-radius: 12px; background: rgba(15,23,42,0.35); box-shadow: 0 6px 16px rgba(0,0,0,0.35); }
 
     .repo:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 12px 26px rgba(0,0,0,0.55); }
 
@@ -191,7 +202,7 @@
     }
     #scrollTopBtn.visible { display: inline-flex; align-items: center; gap: 8px; opacity: 1; transform: translateY(0); }
 
-    footer { text-align: center; padding: 24px 0 6px; color: #64748b; font-size: 0.9rem; }
+    footer { text-align: center; padding: 24px 0 6px; color: #64748b; font-size: 0.9rem; opacity: 0; transform: translateY(10px); animation: footerIn 600ms ease forwards; animation-delay: 2s; }
 
     .view { transition: opacity 220ms ease, transform 220ms ease; }
     .view.is-hiding { opacity: 0; transform: translateY(8px); pointer-events: none; }
@@ -331,7 +342,13 @@
     const transitionMs = 220;
     let showingAbout = false;
 
-    const hideView = (el) => new Promise(resolve => {
+    const hideView = (el, { instant = false } = {}) => new Promise(resolve => {
+      if (instant) {
+        el.hidden = true;
+        el.classList.remove("is-visible");
+        el.classList.remove("is-hiding");
+        return resolve();
+      }
       el.classList.remove("is-visible");
       el.classList.add("is-hiding");
       window.setTimeout(() => {
@@ -374,7 +391,7 @@
       toggleViewBtn.disabled = true;
 
       if (toAbout) {
-        await hideView(reposView);
+        await hideView(reposView, { instant: true });
         container.innerHTML = "";
         reposRendered = false;
         showView(aboutView);
@@ -383,7 +400,9 @@
         await hideView(aboutView);
         showView(reposView);
         await updateHeader(false);
-        if (reposCache && !reposRendered) {
+        if (!reposCache) {
+          renderSkeleton();
+        } else if (!reposRendered) {
           renderRepos(reposCache);
         }
       }
@@ -404,6 +423,17 @@
 
     let reposCache = null;
     let reposRendered = false;
+
+    const renderSkeleton = (count = 6) => {
+      container.innerHTML = "";
+      for (let i = 0; i < count; i++) {
+        const card = document.createElement("article");
+        card.className = "repo skeleton";
+        card.innerHTML = "<div class=\"skeleton-banner\"></div><div class=\"skeleton-line medium\"></div><div class=\"skeleton-line\"></div><div class=\"skeleton-line short\"></div>";
+        container.appendChild(card);
+      }
+      reposRendered = false;
+    };
 
     const renderRepos = (repos) => {
       container.innerHTML = "";
@@ -437,6 +467,10 @@
         });
       reposRendered = true;
     };
+
+    if (!showingAbout) {
+      renderSkeleton();
+    }
 
     fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
       .then(res => res.json())
