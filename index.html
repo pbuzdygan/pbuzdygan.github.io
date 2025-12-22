@@ -260,11 +260,11 @@
           <div class="stats" aria-label="Stats and view toggle">
             <div class="stats-items" id="stats">
               <div>👥 Followers: —</div>
-              <div>📦 Repositories: —</div>
+              <div>📦 Repos: —</div>
               <div>🌟 Following: —</div>
             </div>
             <div class="stats-action">
-              <button type="button" class="action" id="toggleViewBtn"><i class="fas fa-briefcase"></i><span>Work, Technology &amp; Mindset</span></button>
+              <button type="button" class="action" id="toggleViewBtn"><i class="fas fa-briefcase"></i><span>Work, Tech &amp; Mindset</span></button>
             </div>
           </div>
         </div>
@@ -283,7 +283,7 @@
       <div class="about-card">
         <div class="about-grid">
           <div class="about-block">
-            <h3><i class="fas fa-mug-hot"></i>As technology enthusiast</h3>
+            <h3><i class="fas fa-mug-hot"></i>As tech enthusiast</h3>
             <div class="about-tags">
               <span class="tag">self-hosting</span>
               <span class="tag">homelab</span>
@@ -423,7 +423,7 @@
       .then(res => res.json())
       .then(user => {
         profileBio.textContent = user.bio || "No bio available.";
-        stats.innerHTML = `<div>👥 Followers: ${user.followers}</div><div>📦 Repositories: ${user.public_repos}</div><div>🌟 Following: ${user.following}</div>`;
+        stats.innerHTML = `<div>👥 Followers: ${user.followers}</div><div>📦 Repos: ${user.public_repos}</div><div>🌟 Following: ${user.following}</div>`;
       })
       .catch(() => { profileBio.textContent = "Could not load bio."; });
 
