@@ -104,8 +104,12 @@
       .actions { justify-content: flex-start; }
     }
 
-    .stats { display: flex; justify-content: flex-start; gap: 20px; flex-wrap: wrap; margin-top: 10px; color: #cbd5e1; font-size: 0.95rem; }
-    .stats div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
+    .stats { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 10px; color: #cbd5e1; font-size: 0.95rem; }
+    .stats-items { display: flex; gap: 20px; flex-wrap: wrap; }
+    .stats-items div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
+    .stats-action { margin-left: auto; }
+    .stats-action .action { padding: 8px 12px; }
+    .stats-action .action i { margin-right: 6px; }
     
 
     .section-head {
@@ -115,7 +119,7 @@
       align-items: baseline;
       margin: 22px 4px 12px;
     }
-    .section-head h2 { margin: 0; font-size: 1.35rem; }
+    .section-head h2 { margin: 0; font-size: 1.35rem; display: inline-flex; align-items: center; gap: 8px; }
     .section-head p { margin: 0; color: var(--muted); }
 
     main {
@@ -181,6 +185,19 @@
     #scrollTopBtn.visible { display: inline-flex; align-items: center; gap: 8px; opacity: 1; transform: translateY(0); }
 
     footer { text-align: center; padding: 24px 0 6px; color: #64748b; font-size: 0.9rem; }
+
+    .view { transition: opacity 220ms ease, transform 220ms ease; }
+    .view.is-hiding { opacity: 0; transform: translateY(8px); pointer-events: none; }
+
+    .about { margin-top: 18px; padding: 24px; background: var(--card-bg); border-radius: 16px; box-shadow: 0 8px 20px var(--shadow); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .about h2 { margin: 0 0 14px; color: var(--accent); }
+    .about-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .about-block { background: rgba(15,23,42,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; }
+    .about-block--wide { grid-column: 1 / -1; }
+    .about h3 { margin: 0 0 10px; color: #e2e8f0; }
+    .about p { margin: 0 0 10px; color: #cbd5e1; line-height: 1.6; }
+    .about p:last-child { margin-bottom: 0; }
+    @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } .about-block--wide { grid-column: auto; } }
   </style>
 </head>
 <body>
@@ -196,27 +213,57 @@
               <a class="action" href="mailto:pbuzdygan@outlook.com"><i class="fas fa-envelope"></i><span>Email</span></a>
               <a class="action" href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
               <a class="action" href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer"><i class="fab fa-github"></i><span>GitHub</span></a>
-              <a class="action" href="https://pbuzdygan.github.io/cv.pdf" target="_blank" rel="noreferrer"><i class="fas fa-file-pdf"></i><span>CV</span></a>
             </nav>
           </div>
 
           <p class="bio" id="bio">Loading bio…</p>
 
-          <div class="stats" id="stats" aria-label="Stats">
-            <div>👥 Followers: —</div>
-            <div>📦 Repositories: —</div>
-            <div>🌟 Following: —</div>
+          <div class="stats" aria-label="Stats and view toggle">
+            <div class="stats-items" id="stats">
+              <div>👥 Followers: —</div>
+              <div>📦 Repositories: —</div>
+              <div>🌟 Following: —</div>
+            </div>
+            <div class="stats-action">
+              <button type="button" class="action" id="toggleViewBtn"><i class="fas fa-briefcase"></i><span>Work, Technology &amp; Mindset</span></button>
+            </div>
           </div>
         </div>
       </div>
     </header>
 
     <div class="section-head">
-      <h2>Projects</h2>
+      <h2 id="viewTitle"><i class="fas fa-layer-group"></i><span>Projects</span></h2>
       <p>Automatically fetched from GitHub.</p>
     </div>
 
-    <main id="repos">Loading projects…</main>
+    <main id="repos" class="view">Loading projects…</main>
+
+    <section id="aboutView" class="about view" hidden aria-label="Work, Technology & Mindset">
+      <h2>Work, Technology &amp; Mindset</h2>
+
+      <div class="about-grid">
+        <div class="about-block">
+          <h3>Technology (outside of work)</h3>
+          <p><strong>Technology enthusiast</strong> — self-hosting, homelab, build-break-fix, from idea to setup.</p>
+          <p>Outside of work, I run my own self-hosted systems, experiment with new technologies, and turn ideas into practical setups that make everyday life easier. I learn mainly by building, breaking, and fixing things. All of my GitHub projects start from personal needs and are improved by thinking about how others might use them — always with the question in mind: “What if someone else finds this useful?”</p>
+        </div>
+
+        <div class="about-block">
+          <h3>Work</h3>
+          <p><strong>Senior Manager</strong> — Global IT Operations &amp; OT, digitalizing global operations, people-centric leadership.</p>
+          <p>IT Operations leader with nearly 20 years of experience from local infrastructure and support to Global IT Operations in production-driven environments.</p>
+          <p>As Senior Manager, Global IT Operations, I’m responsible for the reliability, development, and scalability of global IT infrastructure. Alongside this role, I’m expanding into Operational Technology (OT), helping build structures and teams focused on the digitalization of global operations and stronger alignment between IT, OT, and the business.</p>
+        </div>
+
+        <div class="about-block about-block--wide">
+          <h3>Mindset</h3>
+          <p>I work where people, technology, and operations meet — bridging them to support sustainable business growth.</p>
+          <p>I’ve spent most of my career working close to production, bridging technology, operations, and people. I prefer simple, practical solutions and steady progress — focusing on the next improvement rather than chasing perfection. I don’t see failures, only lessons that move teams forward.</p>
+          <p>My leadership style is people-centric and adaptive. I believe in team wins, collaboration, and shared responsibility for business sustainability. I work closely with individuals, respect their experience, and adjust my management approach to their stage of development, creating space for ownership, learning, and growth.</p>
+        </div>
+      </div>
+    </section>
 
     <footer>
       <p>© 2025 pbuzdygan • Built with ❤️ and the GitHub API</p>
@@ -244,6 +291,52 @@
     window.addEventListener("scroll", updateScrollTopVisibility);
     updateScrollTopVisibility();
     scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    const toggleViewBtn = document.getElementById("toggleViewBtn");
+    const viewTitle = document.getElementById("viewTitle");
+    const aboutView = document.getElementById("aboutView");
+    const reposView = document.getElementById("repos");
+
+    const transitionMs = 220;
+    let showingAbout = false;
+
+    const hideView = (el) => new Promise(resolve => {
+      el.classList.add("is-hiding");
+      window.setTimeout(() => {
+        el.hidden = true;
+        el.classList.remove("is-hiding");
+        resolve();
+      }, transitionMs);
+    });
+
+    const showView = (el) => {
+      el.hidden = false;
+      el.classList.add("is-hiding");
+      requestAnimationFrame(() => el.classList.remove("is-hiding"));
+    };
+
+    const setView = async (toAbout) => {
+      if (toAbout === showingAbout) return;
+
+      toggleViewBtn.disabled = true;
+
+      if (toAbout) {
+        await hideView(reposView);
+        showView(aboutView);
+        viewTitle.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Technology & Mindset</span>";
+        toggleViewBtn.innerHTML = "<i class=\"fas fa-layer-group\"></i><span>Projects</span>";
+      } else {
+        await hideView(aboutView);
+        showView(reposView);
+        viewTitle.innerHTML = "<i class=\"fas fa-layer-group\"></i><span>Projects</span>";
+        toggleViewBtn.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Technology & Mindset</span>";
+      }
+
+      showingAbout = toAbout;
+      toggleViewBtn.disabled = false;
+    };
+
+    toggleViewBtn.addEventListener("click", () => setView(!showingAbout));
 
     fetch(`https://api.github.com/users/${username}`)
       .then(res => res.json())

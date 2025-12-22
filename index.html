@@ -20,7 +20,7 @@
       --shadow: rgba(0, 0, 0, 0.4);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
     body {
       margin: 0;
       font-family: "Inter", "Segoe UI", Arial, sans-serif;
@@ -30,6 +30,9 @@
     }
 
     @keyframes fadeIn { from {opacity: 0; transform: translateY(16px);} to {opacity: 1; transform: translateY(0);} }
+    @keyframes quoteIn { from {opacity: 0; transform: translateY(8px);} to {opacity: 1; transform: translateY(0);} }
+    @keyframes softRise { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+    @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 rgba(56,189,248,0.0); transform: translateY(0); } 50% { box-shadow: 0 0 14px rgba(56,189,248,0.35); transform: translateY(-1px); } }
 
     .container { max-width: 1200px; margin: 0 auto; padding: 28px 20px 40px; }
 
@@ -104,8 +107,13 @@
       .actions { justify-content: flex-start; }
     }
 
-    .stats { display: flex; justify-content: flex-start; gap: 20px; flex-wrap: wrap; margin-top: 10px; color: #cbd5e1; font-size: 0.95rem; }
-    .stats div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
+    .stats { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 10px; color: #cbd5e1; font-size: 0.95rem; }
+    .stats-items { display: flex; gap: 20px; flex-wrap: wrap; }
+    .stats-items div { background: var(--card-bg); padding: 10px 16px; border-radius: 8px; box-shadow: 0 2px 8px var(--shadow); }
+    .stats-action { margin-left: auto; }
+    .stats-action .action { padding: 8px 12px; }
+    .stats-action .action i { margin-right: 6px; }
+    #toggleViewBtn { animation: pulseGlow 2.6s ease-in-out infinite; }
     
 
     .section-head {
@@ -115,8 +123,11 @@
       align-items: baseline;
       margin: 22px 4px 12px;
     }
-    .section-head h2 { margin: 0; font-size: 1.35rem; }
-    .section-head p { margin: 0; color: var(--muted); }
+    .section-head h2 { margin: 0; font-size: 1.35rem; display: inline-flex; align-items: center; gap: 8px; transition: opacity 0.2s ease, transform 0.2s ease; }
+    .section-head p { margin: 0; color: var(--muted); transition: opacity 0.2s ease, transform 0.2s ease; }
+    .section-head.is-swapping h2,
+    .section-head.is-swapping p { opacity: 0; transform: translateY(6px); }
+    .section-head p.is-hidden { opacity: 0; transform: translateY(6px); }
 
     main {
       display: grid;
@@ -181,6 +192,33 @@
     #scrollTopBtn.visible { display: inline-flex; align-items: center; gap: 8px; opacity: 1; transform: translateY(0); }
 
     footer { text-align: center; padding: 24px 0 6px; color: #64748b; font-size: 0.9rem; }
+
+    .view { transition: opacity 220ms ease, transform 220ms ease; }
+    .view.is-hiding { opacity: 0; transform: translateY(8px); pointer-events: none; }
+
+    .about { margin-top: 12px; }
+    .about-card { padding: 24px; background: var(--card-bg); border-radius: 16px; box-shadow: 0 8px 20px var(--shadow); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .about-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .about-block { background: rgba(15,23,42,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; }
+    .about-block--wide { grid-column: 1 / -1; }
+    .about h3 { margin: 0 0 8px; color: #e2e8f0; }
+    .about p { margin: 0 0 10px; color: #cbd5e1; line-height: 1.6; }
+    .about p:last-child { margin-bottom: 0; }
+    .about-motto { font-size: 1.1rem; color: #e2e8f0; margin: 0 0 16px; padding: 0 24px; text-align: center; font-style: italic; width: 100%; max-width: none; position: relative; }
+    .about-motto::before, .about-motto::after { color: rgba(56,189,248,0.6); font-size: 1.4rem; }
+    .about-motto::before { content: "“"; margin-right: 4px; }
+    .about-motto::after { content: "”"; margin-left: 4px; }
+    .about-tags { margin: 0 0 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .about-tags .tag { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: #cbd5e1; padding: 6px 10px; border-radius: 999px; background: rgba(15,23,42,0.55); border: 1px solid rgba(255,255,255,0.12); }
+    .about h3 i { margin-right: 8px; color: var(--accent); }
+
+    .about .about-motto,
+    .about .about-block { opacity: 0; }
+    .about.is-visible .about-motto { animation: quoteIn 0.45s ease both; }
+    .about.is-visible .about-block { animation: softRise 0.45s ease both; }
+    .about.is-visible .about-block:nth-of-type(1) { animation-delay: 0.08s; }
+    .about.is-visible .about-block:nth-of-type(2) { animation-delay: 0.16s; }
+    @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } .about-block--wide { grid-column: auto; } }
   </style>
 </head>
 <body>
@@ -196,27 +234,65 @@
               <a class="action" href="mailto:pbuzdygan@outlook.com"><i class="fas fa-envelope"></i><span>Email</span></a>
               <a class="action" href="https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/" target="_blank" rel="noreferrer"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
               <a class="action" href="https://github.com/pbuzdygan" target="_blank" rel="noreferrer"><i class="fab fa-github"></i><span>GitHub</span></a>
-              <a class="action" href="https://pbuzdygan.github.io/cv.pdf" target="_blank" rel="noreferrer"><i class="fas fa-file-pdf"></i><span>CV</span></a>
             </nav>
           </div>
 
           <p class="bio" id="bio">Loading bio…</p>
 
-          <div class="stats" id="stats" aria-label="Stats">
-            <div>👥 Followers: —</div>
-            <div>📦 Repositories: —</div>
-            <div>🌟 Following: —</div>
+          <div class="stats" aria-label="Stats and view toggle">
+            <div class="stats-items" id="stats">
+              <div>👥 Followers: —</div>
+              <div>📦 Repositories: —</div>
+              <div>🌟 Following: —</div>
+            </div>
+            <div class="stats-action">
+              <button type="button" class="action" id="toggleViewBtn"><i class="fas fa-briefcase"></i><span>Work, Technology &amp; Mindset</span></button>
+            </div>
           </div>
         </div>
       </div>
     </header>
 
     <div class="section-head">
-      <h2>Projects</h2>
-      <p>Automatically fetched from GitHub.</p>
+      <h2 id="viewTitle"><i class="fas fa-layer-group"></i><span>Projects</span></h2>
+      <p id="viewSubtitle">Automatically fetched from GitHub.</p>
     </div>
 
-    <main id="repos">Loading projects…</main>
+    <main id="repos" class="view"></main>
+
+    <section id="aboutView" class="about view" hidden aria-label="Work, Technology & Mindset">
+      <p class="about-motto">I work where people, technology, and operations meet, bridging them to support sustainable business growth.</p>
+
+      <div class="about-card">
+        <div class="about-grid">
+          <div class="about-block">
+            <h3><i class="fas fa-mug-hot"></i>As technology enthusiast</h3>
+            <div class="about-tags">
+              <span class="tag">self-hosting</span>
+              <span class="tag">homelab</span>
+              <span class="tag">build-break-fix</span>
+              <span class="tag">from idea to setup</span>
+            </div>
+            <p>Outside of work, I run my own self-hosted systems, experiment with new technologies, and turn ideas into practical setups that make everyday life easier. I learn mainly by building, breaking, and fixing things.</p>
+            <p>All of my GitHub projects start from personal needs and are improved by thinking about how others might use them — always with the question in mind: “What if someone else finds this useful?”</p>
+          </div>
+
+          <div class="about-block">
+            <h3><i class="fas fa-building"></i>As employee</h3>
+            <div class="about-tags">
+              <span class="tag">Senior Manager</span>
+              <span class="tag">Global IT Operations &amp; OT</span>
+              <span class="tag">Digitalizing Global Operations</span>
+              <span class="tag">People-Centric Leader</span>
+            </div>
+            <p>IT Operations leader with nearly 20 years of experience from local infrastructure and support to Global IT Operations in production-driven environments.</p>
+            <p>I work in Global IT Operations, focusing on reliable and scalable infrastructure. I’m also moving into Operational Technology (OT), helping digitalize operations and better connect IT, OT, and the business.</p>
+            <p>I’ve worked close to production for most of my career, connecting technology, operations, and people. I value simple, practical solutions and steady improvement over perfection. I treat failures as lessons that help teams move forward.</p>
+            <p>My leadership style is people-focused and flexible. I believe in teamwork, taking action and responsibility in the same time giving people space to take ownership, learn, and grow.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer>
       <p>© 2025 pbuzdygan • Built with ❤️ and the GitHub API</p>
@@ -245,6 +321,79 @@
     updateScrollTopVisibility();
     scrollTopBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
+    const toggleViewBtn = document.getElementById("toggleViewBtn");
+    const viewTitle = document.getElementById("viewTitle");
+    const viewSubtitle = document.getElementById("viewSubtitle");
+    const aboutView = document.getElementById("aboutView");
+    const reposView = document.getElementById("repos");
+    const sectionHead = document.querySelector(".section-head");
+
+    const transitionMs = 220;
+    let showingAbout = false;
+
+    const hideView = (el) => new Promise(resolve => {
+      el.classList.remove("is-visible");
+      el.classList.add("is-hiding");
+      window.setTimeout(() => {
+        el.hidden = true;
+        el.classList.remove("is-hiding");
+        resolve();
+      }, transitionMs);
+    });
+
+    const showView = (el) => {
+      el.hidden = false;
+      el.classList.add("is-hiding");
+      requestAnimationFrame(() => {
+        el.classList.remove("is-hiding");
+        el.classList.add("is-visible");
+      });
+    };
+
+    const updateHeader = (toAbout) => new Promise(resolve => {
+      if (!sectionHead) return resolve();
+      sectionHead.classList.add("is-swapping");
+      window.setTimeout(() => {
+        if (toAbout) {
+          viewTitle.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Technology & Mindset</span>";
+          toggleViewBtn.innerHTML = "<i class=\"fas fa-layer-group\"></i><span>Projects</span>";
+          if (viewSubtitle) viewSubtitle.classList.add("is-hidden");
+        } else {
+          viewTitle.innerHTML = "<i class=\"fas fa-layer-group\"></i><span>Projects</span>";
+          toggleViewBtn.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Technology & Mindset</span>";
+          if (viewSubtitle) viewSubtitle.classList.remove("is-hidden");
+        }
+        sectionHead.classList.remove("is-swapping");
+        resolve();
+      }, 180);
+    });
+
+    const setView = async (toAbout) => {
+      if (toAbout === showingAbout) return;
+
+      toggleViewBtn.disabled = true;
+
+      if (toAbout) {
+        await hideView(reposView);
+        container.innerHTML = "";
+        reposRendered = false;
+        showView(aboutView);
+        await updateHeader(true);
+      } else {
+        await hideView(aboutView);
+        showView(reposView);
+        await updateHeader(false);
+        if (reposCache && !reposRendered) {
+          renderRepos(reposCache);
+        }
+      }
+
+      showingAbout = toAbout;
+      toggleViewBtn.disabled = false;
+    };
+
+    toggleViewBtn.addEventListener("click", () => setView(!showingAbout));
+
     fetch(`https://api.github.com/users/${username}`)
       .then(res => res.json())
       .then(user => {
@@ -253,39 +402,50 @@
       })
       .catch(() => { profileBio.textContent = "Could not load bio."; });
 
+    let reposCache = null;
+    let reposRendered = false;
+
+    const renderRepos = (repos) => {
+      container.innerHTML = "";
+      repos
+        .filter(repo => !excluded.has(repo.name))
+        .forEach((repo, i) => {
+          const repoSlug = encodeURIComponent(repo.name);
+          const branch = encodeURIComponent(repo.default_branch || "main");
+          const repoPath = `${username}/${repoSlug}`;
+
+          const card = document.createElement("article");
+          card.className = "repo";
+          card.style.animationDelay = `${0.08 * (i + 1)}s`;
+
+          const bannerUrl = `https://raw.githubusercontent.com/${username}/${repoSlug}/${branch}/branding/${repoSlug}_banner.png`;
+          const banner = document.createElement("img");
+          banner.className = "repo-banner";
+          banner.src = bannerUrl;
+          banner.alt = `${repo.name} banner`;
+          banner.loading = "lazy";
+          banner.referrerPolicy = "no-referrer";
+          banner.onerror = () => banner.remove();
+
+          const starsUrl = `https://img.shields.io/github/stars/${repoPath}`;
+          const issuesUrl = `https://img.shields.io/github/issues/${repoPath}`;
+          const lastCommitUrl = `https://img.shields.io/github/last-commit/${repoPath}/${branch}`;
+
+          card.innerHTML = `<h3><a href="${repo.html_url}" target="_blank" rel="noreferrer">${repo.name}</a></h3><p>${repo.description || "No description."}</p><div class="repo-footer"><a href="${repo.html_url}/stargazers" target="_blank" rel="noreferrer"><img src="${starsUrl}" alt="Stars"></a><a href="${repo.html_url}/issues" target="_blank" rel="noreferrer"><img src="${issuesUrl}" alt="Issues"></a><a href="${repo.html_url}/commits/${branch}" target="_blank" rel="noreferrer"><img src="${lastCommitUrl}" alt="Last commit"></a></div>`;
+          card.prepend(banner);
+          container.appendChild(card);
+        });
+      reposRendered = true;
+    };
+
     fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
       .then(res => res.json())
       .then(repos => {
         if (!Array.isArray(repos)) throw new Error("Invalid repos response");
-        container.innerHTML = "";
-        repos
-          .filter(repo => !excluded.has(repo.name))
-          .forEach((repo, i) => {
-            const repoSlug = encodeURIComponent(repo.name);
-            const branch = encodeURIComponent(repo.default_branch || "main");
-            const repoPath = `${username}/${repoSlug}`;
-
-            const card = document.createElement("article");
-            card.className = "repo";
-            card.style.animationDelay = `${0.08 * (i + 1)}s`;
-
-            const bannerUrl = `https://raw.githubusercontent.com/${username}/${repoSlug}/${branch}/branding/${repoSlug}_banner.png`;
-            const banner = document.createElement("img");
-            banner.className = "repo-banner";
-            banner.src = bannerUrl;
-            banner.alt = `${repo.name} banner`;
-            banner.loading = "lazy";
-            banner.referrerPolicy = "no-referrer";
-            banner.onerror = () => banner.remove();
-
-            const starsUrl = `https://img.shields.io/github/stars/${repoPath}`;
-            const issuesUrl = `https://img.shields.io/github/issues/${repoPath}`;
-            const lastCommitUrl = `https://img.shields.io/github/last-commit/${repoPath}/${branch}`;
-
-            card.innerHTML = `<h3><a href="${repo.html_url}" target="_blank" rel="noreferrer">${repo.name}</a></h3><p>${repo.description || "No description."}</p><div class="repo-footer"><a href="${repo.html_url}/stargazers" target="_blank" rel="noreferrer"><img src="${starsUrl}" alt="Stars"></a><a href="${repo.html_url}/issues" target="_blank" rel="noreferrer"><img src="${issuesUrl}" alt="Issues"></a><a href="${repo.html_url}/commits/${branch}" target="_blank" rel="noreferrer"><img src="${lastCommitUrl}" alt="Last commit"></a></div>`;
-            card.prepend(banner);
-            container.appendChild(card);
-          });
+        reposCache = repos;
+        if (!showingAbout) {
+          renderRepos(reposCache);
+        }
       })
       .catch(() => {
         container.textContent = "Could not load projects. Try again later.";
