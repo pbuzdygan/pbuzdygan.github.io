@@ -215,7 +215,7 @@
     .about h3 { margin: 0 0 8px; color: #e2e8f0; }
     .about p { margin: 0 0 10px; color: #cbd5e1; line-height: 1.6; }
     .about p:last-child { margin-bottom: 0; }
-    .about-motto { font-size: 1.1rem; color: #e2e8f0; margin: 0 0 16px; padding: 0 24px; text-align: center; font-style: italic; width: 100%; max-width: none; position: relative; }
+    .about-motto { font-size: 1.1rem; color: #e2e8f0; margin: 0 auto 16px; padding: 0; text-align: center; font-style: italic; width: 100%; max-width: calc(100% - 48px); position: relative; }
     .about-motto::before, .about-motto::after { color: rgba(56,189,248,0.6); font-size: 1.4rem; }
     .about-motto::before { content: "“"; margin-right: 4px; }
     .about-motto::after { content: "”"; margin-left: 4px; }
@@ -230,6 +230,13 @@
     .about.is-visible .about-block:nth-of-type(1) { animation-delay: 0.08s; }
     .about.is-visible .about-block:nth-of-type(2) { animation-delay: 0.16s; }
     @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } .about-block--wide { grid-column: auto; } }
+    @media (max-width: 560px) {
+      .stats { flex-wrap: wrap; }
+      .stats-items { flex-wrap: nowrap; gap: 8px; }
+      .stats-items div { padding: 6px 8px; font-size: 0.78rem; }
+      .stats-action { width: 100%; margin-left: 0; }
+      .stats-action .action { padding: 8px 10px; }
+    }
   </style>
 </head>
 <body>
@@ -266,12 +273,11 @@
 
     <div class="section-head">
       <h2 id="viewTitle"><i class="fas fa-layer-group"></i><span>Projects</span></h2>
-      <p id="viewSubtitle">Automatically fetched from GitHub.</p>
     </div>
 
     <main id="repos" class="view"></main>
 
-    <section id="aboutView" class="about view" hidden aria-label="Work, Technology & Mindset">
+    <section id="aboutView" class="about view" hidden aria-label="Work, Tech & Mindset">
       <p class="about-motto">I work where people, technology, and operations meet, bridging them to support sustainable business growth.</p>
 
       <div class="about-card">
@@ -372,12 +378,12 @@
       sectionHead.classList.add("is-swapping");
       window.setTimeout(() => {
         if (toAbout) {
-          viewTitle.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Technology & Mindset</span>";
+          viewTitle.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Tech & Mindset</span>";
           toggleViewBtn.innerHTML = "<i class=\"fas fa-layer-group\"></i><span>Projects</span>";
           if (viewSubtitle) viewSubtitle.classList.add("is-hidden");
         } else {
           viewTitle.innerHTML = "<i class=\"fas fa-layer-group\"></i><span>Projects</span>";
-          toggleViewBtn.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Technology & Mindset</span>";
+          toggleViewBtn.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Tech & Mindset</span>";
           if (viewSubtitle) viewSubtitle.classList.remove("is-hidden");
         }
         sectionHead.classList.remove("is-swapping");
