@@ -116,6 +116,10 @@
     .stats-action .action { padding: 8px 12px; }
     .stats-action .action i { margin-right: 6px; }
     #toggleViewBtn { animation: pulseGlow 2.6s ease-in-out infinite; }
+    #toggleViewBtn span { display: inline-block; transition: opacity 0.2s ease, transform 0.2s ease; }
+    #toggleViewBtn.is-swapping span { opacity: 0; transform: translateY(6px); }
+    #toggleViewBtn i { transition: opacity 0.2s ease, transform 0.2s ease; }
+    #toggleViewBtn.is-swapping i { opacity: 0; transform: translateY(6px); }
     
 
     .section-head {
@@ -215,7 +219,7 @@
     .about h3 { margin: 0 0 8px; color: #e2e8f0; }
     .about p { margin: 0 0 10px; color: #cbd5e1; line-height: 1.6; }
     .about p:last-child { margin-bottom: 0; }
-    .about-motto { font-size: 1.1rem; color: #e2e8f0; margin: 0 auto 16px; padding: 0; text-align: center; font-style: italic; width: 100%; max-width: calc(100% - 48px); position: relative; }
+    .about-motto { font-size: 1.1rem; color: #e2e8f0; margin: 0 auto 16px; padding: 0; text-align: center; font-style: italic; width: calc(100% - 48px); max-width: none; position: relative; }
     .about-motto::before, .about-motto::after { color: rgba(56,189,248,0.6); font-size: 1.4rem; }
     .about-motto::before { content: "“"; margin-right: 4px; }
     .about-motto::after { content: "”"; margin-left: 4px; }
@@ -376,6 +380,7 @@
     const updateHeader = (toAbout) => new Promise(resolve => {
       if (!sectionHead) return resolve();
       sectionHead.classList.add("is-swapping");
+      toggleViewBtn.classList.add("is-swapping");
       window.setTimeout(() => {
         if (toAbout) {
           viewTitle.innerHTML = "<i class=\"fas fa-briefcase\"></i><span>Work, Tech & Mindset</span>";
@@ -387,6 +392,7 @@
           if (viewSubtitle) viewSubtitle.classList.remove("is-hidden");
         }
         sectionHead.classList.remove("is-swapping");
+        toggleViewBtn.classList.remove("is-swapping");
         resolve();
       }, 180);
     });
