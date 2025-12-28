@@ -1,7 +1,7 @@
-# 🌐 pbuzdygan – Developer Portfolio
+# 🌐 Przemyslaw Buzdygan – Personal website
 
 Welcome to my personal developer portfolio.  
-This site dynamically showcases my public GitHub repositories and development work.
+This site showcases my public GitHub repositories, personal development work and profeional background.
 
 ## 🚀 Features
 - Automatic loading of repositories via the GitHub API  
