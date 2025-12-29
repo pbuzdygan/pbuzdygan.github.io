@@ -21,7 +21,7 @@ This site showcases my public GitHub repositories, personal development work and
 
 ## 📬 Contact
 - 📧 Email: [pbuzdygan@outlook.com](mailto:pbuzdygan@outlook.com)  
-- 💼 LinkedIn: [LinkedIn Przemyslaw Buzdygan](https://www.linkedin.com/in/przemys%C5%82aw-buzdygan-15bb391a/)  
+- 💼 LinkedIn: [LinkedIn Przemyslaw Buzdygan](https://www.linkedin.com/in/przemyslaw-buzdygan)  
 - 🐙 GitHub: [github.com/pbuzdygan](https://github.com/pbuzdygan)  
 - 🌐 Portfolio: [pbuzdygan.github.io](https://pbuzdygan.github.io)  
 
